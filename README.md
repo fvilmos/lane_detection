@@ -2,6 +2,11 @@
 
 ## About
 
+
+<p align="center"> 
+<img src="./info/lane.gif" width="320">
+</p>
+
 The main goal of this implementation is the detect the lane boundaries, from images captured from a front-facing camera. For this case, the images are captured with CARLA [1] The processing pipeline takes an image, filters it (using a Sobel filter [2]). This highlights the areas with high gradient changes.
 
 The perspective of the filtered image is changed (bird's eye view) to make easier lane detection. Then a window is applied to create a histogram of detections. The peek is taken as the highest probability for the lane. Based on the peak position, the detector-window position is adjusted to follow the detections (i.e. curve position).
@@ -10,7 +15,7 @@ After all the points were detected, a polynomial fit is applied, and a curve is 
 
 <p align="center"> 
 <img src="./info/concat_img.jpg" width="800">
-<div align="center">Left: input image,Middle: Filtered image, Right: Warped image</div>
+<div align="center">Left: Input image,Middle: Filtered image, Right: Warped image</div>
 </p>
 <p align="center">
 <img src="./info/concat_img1.jpg" alt="400" width="800">

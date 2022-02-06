@@ -19,14 +19,17 @@ class Detector():
         Returns:
             [type]: RGB image
         """
-        iimg = cv2.cvtColor(iimg, cv2.COLOR_BGR2GRAY)
-
-        iimg = cv2.blur(iimg,(3,3))
-        iimg = cv2.Sobel(iimg,cv2.CV_8U,1,0,ksize=1)
-
-        ret,iimg= cv2.threshold(iimg,50,100,cv2.THRESH_OTSU)
-        iimg = cv2.morphologyEx(iimg, cv2.MORPH_CLOSE, (3,3))
-
+        iimg = cv2.cvtColor(iimg,cv2.COLOR_BGR2GRAY)
+        ciimg = cv2.Canny(iimg,50,250)
+        ciimg = cv2.morphologyEx(ciimg,cv2.MORPH_DILATE,(1,1),iterations = 5)
+    
+        siimg = cv2.Sobel(iimg,cv2.CV_8U,1,0,ksize=1)
+        siimg = cv2.morphologyEx(siimg,cv2.MORPH_DILATE,(1,1),iterations = 5)
+        ret,siimg= cv2.threshold(siimg,50,255,cv2.THRESH_OTSU)
+        siimg = cv2.morphologyEx(siimg, cv2.MORPH_CLOSE, (3,3))
+        
+        iimg= cv2.bitwise_and(ciimg,ciimg,mask=siimg)
+        
         return iimg
         
     def get_lane_detections(self,iimg,start={'x':105, 'y':230},stop={'x':135, 'y':230},label='mid', use_RANSAC=True, debug=False):
